@@ -128,10 +128,6 @@ func (w *write) Errors() <-chan error {
 
 // Close closes write client, before close try to send pending points.
 func (w *write) Close() {
-	if w.closed {
-		return
-	}
-
 	w.mutex.Lock()
 	defer w.mutex.Unlock()
 
@@ -197,8 +193,12 @@ func (w *write) flushBuffer() {
 	w.buf.Reset() // reset batch buf
 	w.batchedSize = 0
 
+	// copy data
+	dst := make([]byte, len(data))
+	copy(dst, data)
+
 	// put data into send chan
-	w.sendCh <- data
+	w.sendCh <- dst
 }
 
 // batchPoint marshals point, if success put data into buffer.

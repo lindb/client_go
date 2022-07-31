@@ -20,7 +20,6 @@ package main
 import (
 	"context"
 	"fmt"
-	"time"
 
 	lindb "github.com/lindb/client_go"
 	"github.com/lindb/client_go/api"
@@ -49,6 +48,4 @@ func readErrors() {
 
 	// close write client
 	w.Close()
-	// sleep just for testing
-	time.Sleep(time.Minute)
 }

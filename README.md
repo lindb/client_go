@@ -85,14 +85,12 @@ func main() {
 
 	// close write client
 	w.Close()
-	// sleep just for testing
-	time.Sleep(time.Minute)
 }
 ```
 
 ### Reading background process errors
 
-Write client doesn't log any error. Can use [Errors()](https://pkg.go.dev/github.com/lindb/client_go/api#Write.Errors) method, which returns the channel for reading errors occurring
+Write client doesn't log any error. Can use [Errors()](https://pkg.go.dev/github.com/lindb/client_go/api#Write) method, which returns the channel for reading errors occurring
 during async writes.
 
 ```go
@@ -130,8 +128,6 @@ func main() {
 
 	// close write client
 	w.Close()
-	// sleep just for testing
-	time.Sleep(time.Minute)
 }
 ```
 

@@ -4,12 +4,13 @@ bin/
 .vscode/
 .DS_Store
 *.log
+.history
+*.bat
 
 # temp file during testing
-*.test
-
-# config files
-*.toml
+cpu_profile
+*gomock*
+*.db
 
 ## Go
 # Binaries for programs and plugins
@@ -24,12 +25,6 @@ bin/
 *mock.pb.go
 *mock_test.go
 
-default.etcd
-web/node_modules/
-web/build/*
-web/yarn-error.log
-web/package-lock.json
-
 # Test binary, built with `go test -c`
 *.test
 
@@ -38,4 +33,3 @@ web/package-lock.json
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-

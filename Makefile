@@ -1,14 +1,27 @@
-.PHONY: test
+.PHONY: help test deps
 
-pre-test: build ## go generate mock file.
-	if [ ! -e ./bin/golangci-lint ]; then \
-		curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s $(GOLANGCI_LINT_VERSION); \
-	fi
-	GO111MODULE=on ./bin/golangci-lint run
+# Ref: https://gist.github.com/prwhite/8168133
+help:  ## Display this help
+	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m<target>\033[0m\n\nTargets:\n"} \
+		/^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-10s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
 
+GOMOCK_VERSION = "v1.5.0"
 
-test:  pre-test ## Run test cases. (Args: GOLANGCI_LINT_VERSION=latest)
-	GO111MODULE=on go test -v -race -coverprofile=coverage.out -covermode=atomic ./...
+gomock: ## go generate mock file.
+	go install "github.com/golang/mock/mockgen@$(GOMOCK_VERSION)"
+	go list ./... |grep -v '/gomock' | xargs go generate -v
 
-build: ## build trigger downloading depenciencies
-	GO111MODULE=on go build -o ./bin/example github.com/lindb/client_go/example
+header: ## check and add license header.
+	sh addlicense.sh
+
+lint: ## run lint
+	go install "github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.0"
+	golangci-lint run ./...
+
+test: header lint ## Run test cases.
+	go install "github.com/rakyll/gotest@v0.0.6"
+	gotest -v -race -coverprofile=coverage.out -covermode=atomic ./...
+
+deps:  ## Update vendor.
+	go mod verify
+	go mod tidy -v

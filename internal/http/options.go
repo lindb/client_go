@@ -27,7 +27,7 @@ import (
 )
 
 var (
-	UserAgent = fmt.Sprintf("lindb-client-go/%s  (%s; %s)", "0.0.1", runtime.GOOS, runtime.GOARCH)
+	UserAgent = fmt.Sprintf("lindb-client-go/%s  (%s; %s)", "0.0.2", runtime.GOOS, runtime.GOARCH)
 )
 
 // Options represents http configuration options for communicating with LinDB server.

@@ -36,6 +36,11 @@ func TestClient_Write(t *testing.T) {
 	assert.NotNil(t, c.Write("test"))
 }
 
+func TestClient_DataQuery(t *testing.T) {
+	c := NewClient("http://localhost:8080")
+	assert.NotNil(t, c.DataQuery())
+}
+
 func TestWrite(t *testing.T) {
 	cli := NewClient("http://localhost:9000")
 	w := cli.Write("_internal")
@@ -52,5 +57,5 @@ func TestWrite(t *testing.T) {
 		}
 	}()
 	w.Close()
-	time.Sleep(time.Minute)
+	time.Sleep(time.Second)
 }

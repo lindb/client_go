@@ -25,7 +25,7 @@ import (
 	"github.com/lindb/client_go/api"
 )
 
-func writeData() {
+func WriteData() {
 	// create write client with options
 	cli := lindb.NewClientWithOptions(
 		"http://localhost:9000",

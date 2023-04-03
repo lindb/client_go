@@ -1,5 +1,8 @@
-name: LinDB CI
-on: [push, pull_request]
+name: LinDB Go Client CI
+on:
+  push:
+    branches:
+      - main
 jobs:
   test-with-coverage:
     name: Uint Test
@@ -12,7 +15,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v3
         with:
-          go-version: 1.18
+          go-version: 1.19
           cache: true
         id: go
       - name: Make Mock files
@@ -20,4 +23,4 @@ jobs:
       - name: Test
         run: make test
       - name: Upload
-        run: bash <(curl -s https://codecov.io/bash) -t 0dc96dff-2c87-4f72-bd18-a4a816ebe107
+        run: bash <(curl -s https://codecov.io/bash) -t ${{ secrets.CODECOV_TOKEN }}

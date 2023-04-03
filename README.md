@@ -3,6 +3,7 @@
 [![LICENSE](https://img.shields.io/github/license/lindb/client_go)](https://github.com/lindb/client_go/blob/main/LICENSE)
 [![Language](https://img.shields.io/badge/Language-Go-blue.svg)](https://golang.org/)
 [![Go Report Card](https://goreportcard.com/badge/github.com/lindb/client_go)](https://goreportcard.com/report/github.com/lindb/client_go)
+[![GitHub release](https://img.shields.io/github/tag/lindb/client_go.svg?label=release)](https://github.com/lindb/client_go/releases)
 [![codecov](https://codecov.io/gh/lindb/client_go/branch/main/graph/badge.svg)](https://codecov.io/gh/lindb/client_go)
 [![Github Actions Status](https://github.com/lindb/client_go/workflows/LinDB%20CI/badge.svg)](https://github.com/lindb/client_go/actions?query=workflow%3A%22LinDB+CI%22)
 [![GoDoc](https://img.shields.io/badge/Godoc-reference-blue.svg)](https://godoc.org/github.com/lindb/client_go)
@@ -14,6 +15,7 @@ This repository contains the reference Go client for LinDB.
   - [Installation](#installation)
   - [Write Data](#write-data)
   - [Reading Background Process Errors](#reading-background-process-errors)
+  - [Query Data](#query-data)
   - [Write Options](#options)
 
 ## Features
@@ -22,12 +24,14 @@ This repository contains the reference Go client for LinDB.
   - Write data use asynchronous
   - Support field type(sum/min/max/last/first/histogram)
   - [FlatBuf Protocol](https://github.com/lindb/common/blob/main/proto/v1/metrics.fbs)
+- Query data
+  - Query metric data/metadata
 
 ## How To Use
 
 ### Installation
 
-Go 1.18 or later is required.
+Go 1.19 or later is required.
 
 - Add the client package to your project dependencies (go.mod).
    ```sh
@@ -128,6 +132,38 @@ func main() {
 
 	// close write client
 	w.Close()
+}
+```
+
+### Query data
+
+[More examples](./example/read_data.go)
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+
+	lindb "github.com/lindb/client_go"
+)
+
+func main() {
+	// create write client
+	cli := lindb.NewClient("http://localhost:9000")
+	query := cli.DataQuery()
+	// LinQL ref: https://lindb.io/guide/lin-ql.html#metric-query
+	data, err := query.DataQuery(context.TODO(),
+		"_internal",
+		"select heap_objects from lindb.runtime.mem where time>now()-2m and 'role' in ('Broker') group by node")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	// print table
+	_, table := data.ToTable()
+	fmt.Println(table)
 }
 ```
 

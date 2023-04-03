@@ -18,6 +18,5 @@
 package main
 
 func main() {
-	readErrors()
-	writeData()
+	ReadMetricMetadata()
 }

@@ -24,6 +24,8 @@ import "github.com/lindb/client_go/api"
 type Client interface {
 	// Write returns an asynchronous write client.
 	Write(database string) api.Write
+	// DataQuery returns a metric data query client.
+	DataQuery() api.DataQuery
 }
 
 // client implements the Client interface.
@@ -54,4 +56,9 @@ func NewClient(brokerEndpoint string) Client {
 // Write returns an asynchronous write client.
 func (c *client) Write(database string) api.Write {
 	return api.NewWrite(c.brokerEndpoint, database, c.options.WriteOptions(), c.options.HTTPOptions())
+}
+
+// DataQuery returns a metric data query client.
+func (c *client) DataQuery() api.DataQuery {
+	return api.NewDataQuery(c.brokerEndpoint, c.options.HTTPOptions())
 }

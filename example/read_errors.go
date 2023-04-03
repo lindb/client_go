@@ -25,7 +25,7 @@ import (
 	"github.com/lindb/client_go/api"
 )
 
-func readErrors() {
+func ReadErrors() {
 	// create write client
 	cli := lindb.NewClient("http://localhost:9000")
 	w := cli.Write("_internal")

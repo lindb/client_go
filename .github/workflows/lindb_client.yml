@@ -1,5 +1,6 @@
 name: LinDB Go Client CI
 on:
+  pull_request:
   push:
     branches:
       - main

@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/klauspost/compress v1.16.3
-	github.com/lindb/common v0.0.2
+	github.com/lindb/common v0.0.3
 	github.com/stretchr/testify v1.8.2
 )
 

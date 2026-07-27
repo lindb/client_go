@@ -21,13 +21,12 @@ import (
 	"math"
 	"testing"
 
+	"github.com/lindb/common/metric"
 	"github.com/stretchr/testify/assert"
-
-	"github.com/lindb/common/series"
 )
 
 func TestSimpleField(t *testing.T) {
-	builder, releaseFunc := series.NewRowBuilder()
+	builder, releaseFunc := metric.NewRowBuilder()
 	defer releaseFunc(builder)
 
 	assert.NoError(t, NewSum("sum", 10.0).write(builder))
@@ -38,7 +37,7 @@ func TestSimpleField(t *testing.T) {
 }
 
 func TestHistogramField(t *testing.T) {
-	builder, releaseFunc := series.NewRowBuilder()
+	builder, releaseFunc := metric.NewRowBuilder()
 	defer releaseFunc(builder)
 
 	histogram := NewHistogram(1.0, 10.0, 100.0, 20.0, []float64{1, 2, 3}, []float64{1, 2, math.Inf(0)})

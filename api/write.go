@@ -28,8 +28,7 @@ import (
 	"time"
 
 	"github.com/klauspost/compress/gzip"
-
-	"github.com/lindb/common/series"
+	"github.com/lindb/common/metric"
 
 	"github.com/lindb/client_go/internal"
 	httppkg "github.com/lindb/client_go/internal/http"
@@ -75,7 +74,7 @@ type write struct {
 	stopSendCh  chan struct{}
 	doneCh      chan struct{}
 
-	builder     *series.RowBuilder
+	builder     *metric.RowBuilder
 	buf         *bytes.Buffer
 	gzipBuf     *bytes.Buffer
 	gzipWriter  *gzip.Writer
@@ -98,7 +97,7 @@ func NewWrite(endpoint, database string, writeOptions *WriteOptions, httpOptions
 		stopBatchCh:  make(chan struct{}),
 		stopSendCh:   make(chan struct{}),
 		doneCh:       make(chan struct{}),
-		builder:      series.CreateRowBuilder(),
+		builder:      metric.CreateRowBuilder(),
 		buf:          &bytes.Buffer{},
 	}
 	if writeOptions.UseGZip() {

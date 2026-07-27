@@ -1,10 +1,10 @@
 module github.com/lindb/client_go
 
-go 1.19
+go 1.25
 
 require (
 	github.com/klauspost/compress v1.16.3
-	github.com/lindb/common v0.0.3
+	github.com/lindb/common v0.0.9
 	github.com/stretchr/testify v1.8.2
 )
 
@@ -33,5 +33,3 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/lindb/common => ../common

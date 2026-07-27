@@ -35,7 +35,6 @@ type Point struct {
 func NewPoint(metricName string) *Point {
 	return &Point{
 		metricName: strings.Trim(metricName, " "),
-		timestamp:  time.Now(), // default timestamp
 	}
 }
 
@@ -48,6 +47,12 @@ func (p *Point) SetNamespace(namespace string) *Point {
 // Namespace returns namespace.
 func (p *Point) Namespace() string {
 	return p.namespace
+}
+
+// SetMetricName sets metric name.
+func (p *Point) SetMetricName(metricName string) *Point {
+	p.metricName = strings.Trim(metricName, " ")
+	return p
 }
 
 // MetricName returns metric name.
@@ -63,6 +68,9 @@ func (p *Point) SetTimestamp(timestamp time.Time) *Point {
 
 // Timestamp returns timestamp.
 func (p *Point) Timestamp() time.Time {
+	if p.timestamp.IsZero() {
+		p.timestamp = time.Now()
+	}
 	return p.timestamp
 }
 

@@ -18,18 +18,10 @@
 package internal
 
 import (
-	"reflect"
 	"unsafe"
 )
 
 // String2ByteSlice returns the binary for given string value.
 func String2ByteSlice(str string) []byte {
-	p := unsafe.Pointer((*reflect.StringHeader)(unsafe.Pointer(&str)).Data)
-
-	var b []byte
-	hdr := (*reflect.SliceHeader)(unsafe.Pointer(&b))
-	hdr.Data = uintptr(p)
-	hdr.Cap = len(str)
-	hdr.Len = len(str)
-	return b
+	return unsafe.Slice(unsafe.StringData(str), len(str))
 }

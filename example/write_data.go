@@ -45,7 +45,7 @@ func WriteData() {
 	}()
 
 	// write some metric data
-	for i := 0; i < 10; i++ {
+	for range 10 {
 		// write cpu data
 		w.AddPoint(context.TODO(), api.NewPoint("cpu").
 			AddTag("host", "host1").

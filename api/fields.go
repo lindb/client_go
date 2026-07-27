@@ -18,8 +18,8 @@
 package api
 
 import (
+	"github.com/lindb/common/metric"
 	"github.com/lindb/common/proto/gen/v1/flatMetricsV1"
-	"github.com/lindb/common/series"
 
 	"github.com/lindb/client_go/internal"
 )
@@ -27,7 +27,7 @@ import (
 // Field represents field interface.
 type Field interface {
 	// write field data into broker row builder.
-	write(builder *series.RowBuilder) error
+	write(builder *metric.RowBuilder) error
 }
 
 // exemplar represents an exemplar, which is a sample input measurement.
@@ -52,7 +52,7 @@ func NewExemplar(name, traceID, spanID string, duration int64) Field {
 }
 
 // write exemplar data into broker row builder(flat protocol)
-func (e *exemplar) write(builder *series.RowBuilder) error {
+func (e *exemplar) write(builder *metric.RowBuilder) error {
 	return builder.AddExemplar(internal.String2ByteSlice(e.name),
 		internal.String2ByteSlice(e.traceID),
 		internal.String2ByteSlice(e.spanID),
@@ -68,7 +68,7 @@ type simpleField struct {
 }
 
 // write field data into broker row builder(flat protocol)
-func (s *simpleField) write(builder *series.RowBuilder) error {
+func (s *simpleField) write(builder *metric.RowBuilder) error {
 	return builder.AddSimpleField(internal.String2ByteSlice(s.name), s.fieldType, s.v)
 }
 
@@ -159,10 +159,10 @@ type Histogram struct {
 }
 
 // NewHistogram creates a Histogram field.
-func NewHistogram(min, max, sum, count float64, values, bounds []float64) Field {
+func NewHistogram(minVal, maxVal, sum, count float64, values, bounds []float64) Field {
 	return &Histogram{
-		min:    min,
-		max:    max,
+		min:    minVal,
+		max:    maxVal,
 		sum:    sum,
 		count:  count,
 		values: values,
@@ -171,7 +171,7 @@ func NewHistogram(min, max, sum, count float64, values, bounds []float64) Field 
 }
 
 // write histogram data into broker row builder.
-func (h *Histogram) write(builder *series.RowBuilder) error {
+func (h *Histogram) write(builder *metric.RowBuilder) error {
 	if err := builder.AddCompoundFieldMMSC(h.min, h.max, h.sum, h.count); err != nil {
 		return err
 	}

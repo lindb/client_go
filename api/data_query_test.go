@@ -74,7 +74,6 @@ func TestDataQuery_Data(t *testing.T) {
 	}
 
 	for _, tt := range cases {
-		tt := tt
 		t.Run(tt.name, func(_ *testing.T) {
 			api := NewDataQuery("test", httppkg.DefaultOptions())
 			tt.prepare()
@@ -129,7 +128,6 @@ func TestDataQuery_MetaData(t *testing.T) {
 	}
 
 	for _, tt := range cases {
-		tt := tt
 		t.Run(tt.name, func(_ *testing.T) {
 			api := NewDataQuery("test", httppkg.DefaultOptions())
 			tt.prepare()
